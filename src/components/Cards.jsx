@@ -55,7 +55,7 @@ const Cards = () => {
       <Grid container spacing={2} justifyContent="center">
         {status === 'succeeded' && showData
           ? products.map((product) => (
-              <Grid item xs={12} sm={6} md={4} lg={3} key={product.id}>
+              <Grid item xs={6} sm={6} md={4} lg={3} key={product.id}>
                 <Link to={`/productdetail/${product.id}`} style={{ textDecoration: 'none' }}>
                   <Box display="flex" justifyContent="center">
                     <Card
@@ -76,8 +76,8 @@ const Cards = () => {
                         height: '100%',
                         display: 'flex',
                         flexDirection: 'column',
-                        minWidth: isMobile ? 160 : 200,
-                        maxWidth: isMobile ? 180 : 300,
+                        minWidth: isMobile ? 120 : 200,
+                        maxWidth: isMobile ? 140 : 300,
                         width: '100%'
                       }}
                     >

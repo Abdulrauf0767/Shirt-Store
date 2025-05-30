@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AppBar, Typography, IconButton } from '@mui/material';
+import { AppBar, Typography, IconButton,Button } from '@mui/material';
 import { Link, useNavigate } from "react-router-dom";
 import {
   AddShoppingCartOutlined,
@@ -110,7 +110,7 @@ const Header = () => {
       {showSearch && (
         <form
           onSubmit={handleSearchSubmit}
-          className="flex md:hidden items-center px-4 py-2 border-t border-gray-200 bg-white"
+          className="flex md:hidden items-center gap-x-2 px-4 py-2 border-t border-gray-200 bg-white"
         >
           <input
             type="search"
@@ -120,7 +120,9 @@ const Header = () => {
             onChange={handleSearchChange}
             className="flex-1 h-10 px-4 rounded-2xl border border-gray-300 focus:outline-none"
           />
-          <button type="submit" className="ml-2 text-green-600 font-medium">Go</button>
+          <Button type="submit" variant='outlined' sx={{
+            borderRadius : 2
+          }} >Go</Button>
         </form>
       )}
 
