@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { AppBar, Typography, IconButton } from '@mui/material';
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -8,16 +8,18 @@ import {
   Menu as MenuIcon,
   Close as CloseIcon,
 } from '@mui/icons-material';
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { handleSearch } from '../features/DataSlice';
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [showSearch, setShowSearch] = useState(false); // Mobile search toggle
+  const [searchValue, setSearchValue] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [searchValue, setSearchValue] = useState('');
-  
+
   const toggleMenu = () => setMenuOpen(!menuOpen);
+  const toggleSearch = () => setShowSearch(!showSearch);
 
   const handleSearchChange = (e) => {
     const value = e.target.value;
@@ -29,6 +31,7 @@ const Header = () => {
     e.preventDefault();
     if (searchValue.trim() !== '') {
       navigate('/search');
+      setShowSearch(false); // close mobile search after submission
     }
   };
 
@@ -40,18 +43,21 @@ const Header = () => {
         boxShadow: 'none',
         height: '5rem',
         paddingX: { xs: 2, md: 6 },
+        zIndex: 30,
       }}
     >
       <div className="flex items-center justify-between h-full w-full mx-auto">
         {/* Logo */}
         <div className="text-xl font-bold w-[120px] flex-shrink-0">Get Shirts</div>
 
-        {/* Search Bar */}
-        <form onSubmit={handleSearchSubmit} className="relative flex-1 max-w-lg mx-4">
+        {/* Desktop Search */}
+        <form
+          onSubmit={handleSearchSubmit}
+          className="hidden md:flex relative flex-1 max-w-lg mx-4"
+        >
           <input
             type="search"
             name="search"
-            id="search"
             placeholder="Search here"
             value={searchValue}
             onChange={handleSearchChange}
@@ -73,24 +79,50 @@ const Header = () => {
 
         {/* Icons */}
         <div className="flex items-center space-x-4 ml-4 flex-shrink-0">
+          {/* Mobile Search Toggle */}
+          <IconButton
+            sx={{ display: { xs: 'flex', md: 'none' } }}
+            onClick={toggleSearch}
+          >
+            <SearchOutlined />
+          </IconButton>
+
           <Link to="/cart">
             <AddShoppingCartOutlined className="cursor-pointer" />
           </Link>
           <Link to="/login">
             <AccountCircleOutlined className="cursor-pointer" />
           </Link>
+
           <IconButton
             edge="end"
             color="inherit"
             aria-label="menu"
             onClick={toggleMenu}
             sx={{ display: { xs: 'flex', md: 'none' } }}
-            className="ml-2"
           >
             {menuOpen ? <CloseIcon /> : <MenuIcon />}
           </IconButton>
         </div>
       </div>
+
+      {/* Mobile Search Bar */}
+      {showSearch && (
+        <form
+          onSubmit={handleSearchSubmit}
+          className="flex md:hidden items-center px-4 py-2 border-t border-gray-200 bg-white"
+        >
+          <input
+            type="search"
+            name="mobileSearch"
+            placeholder="Search here"
+            value={searchValue}
+            onChange={handleSearchChange}
+            className="flex-1 h-10 px-4 rounded-2xl border border-gray-300 focus:outline-none"
+          />
+          <button type="submit" className="ml-2 text-green-600 font-medium">Go</button>
+        </form>
+      )}
 
       {/* Mobile Menu Dropdown */}
       {menuOpen && (
