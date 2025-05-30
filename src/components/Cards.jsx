@@ -77,7 +77,7 @@ const Cards = () => {
                         display: 'flex',
                         flexDirection: 'column',
                         minWidth: isMobile ? 120 : 200,
-                        maxWidth: isMobile ? 140 : 300,
+                        maxWidth: isMobile ? 150 : 300,
                         width: '100%'
                       }}
                     >
