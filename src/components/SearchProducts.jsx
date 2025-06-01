@@ -1,8 +1,8 @@
 import React from 'react';
 import Header from "../components/Header";
-import { Box, Container, Paper, Stack, Typography, Button, Rating, Divider } from '@mui/material';
+import { Box, Container, Paper, Stack, Typography, Button, Rating } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import { addTocart } from '../features/DataSlice';
 
@@ -14,14 +14,39 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   },
 }));
 
+const highlightMatch = (text, query) => {
+  if (!query) return text;
+
+  const regex = new RegExp(`(${query})`, 'gi');
+  const parts = text.split(regex);
+
+  return parts.map((part, index) =>
+    part.toLowerCase() === query.toLowerCase() ? (
+      <span
+        key={index}
+        style={{
+          color: '#1976d2',
+          fontWeight: 600,
+          backgroundColor: 'rgba(25, 118, 210, 0.1)',
+          padding: '0 2px',
+          borderRadius: '2px',
+        }}
+      >
+        {part}
+      </span>
+    ) : (
+      <span key={index}>{part}</span>
+    )
+  );
+};
+
 const SearchProducts = () => {
-  const navigate = useNavigate()
-  const dispatch = useDispatch() ;
-  const handleAddCard = (product) => {
-               dispatch(addTocart(product));
-               
-  }
+  const dispatch = useDispatch();
   const { list, searchQuery } = useSelector((state) => state.cardData);
+
+  const handleAddCard = (product) => {
+    dispatch(addTocart(product));
+  };
 
   return (
     <div>
@@ -133,10 +158,10 @@ const SearchProducts = () => {
                     sx={{ 
                       fontWeight: 500,
                       mb: 0.5,
-                      lineHeight: 1.3
+                      lineHeight: 1.3,
                     }}
                   >
-                    {product.name}
+                    {highlightMatch(product.name, searchQuery)}
                   </Typography>
                   
                   <Rating 
@@ -208,7 +233,7 @@ const SearchProducts = () => {
                         variant='outlined'
                         color='primary'
                         size='small'
-                        onClick={() =>  handleAddCard(product)}
+                        onClick={() => handleAddCard(product)}
                         sx={{ 
                           minWidth: '120px',
                           textTransform: 'none'
