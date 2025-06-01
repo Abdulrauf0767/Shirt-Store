@@ -7,6 +7,8 @@ import Delivery from './pages/Delivery';
 import  Login  from '../src/components/Login';
 import Signup from './components/Signup';
 import SearchProducts from './components/SearchProducts';
+import AboutUs from './components/AboutUs';
+import ContactUsPage from './pages/ContactUsPage';
 const App = () => {
   return (
     <div>
@@ -18,6 +20,8 @@ const App = () => {
         <Route path='/login' element = {<Login/>} />
         <Route path='/signup' element = {<Signup/>} />
         <Route path='/search' element = {<SearchProducts/>} />
+        <Route path='/about' element = {<AboutUs/>} />
+        <Route path='/contact' element = {<ContactUsPage  />} />
       </Routes>
     </div>
   )
