@@ -19,7 +19,7 @@ const SearchProducts = () => {
   const dispatch = useDispatch() ;
   const handleAddCard = (product) => {
                dispatch(addTocart(product));
-               navigate('/cart');
+               
   }
   const { list, searchQuery } = useSelector((state) => state.cardData);
 

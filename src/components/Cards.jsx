@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchData } from '../features/DataSlice';
-import { Link } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import {
   Card,
   CardMedia,
@@ -28,7 +28,8 @@ const Cards = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [showData, setShowData] = useState(false);
   const [visibleProductsCount, setVisibleProductsCount] = useState(8);
-  const [visibleProducts,setvisibleProducts] = useState([]) ;
+  const [visibleProducts, setVisibleProducts] = useState([]);
+
   useEffect(() => {
     if (status === 'idle') {
       dispatch(fetchData());
@@ -37,7 +38,7 @@ const Cards = () => {
 
   useEffect(() => {
     if (status === 'succeeded') {
-      setvisibleProducts(products.slice(0,visibleProductsCount)) ;
+      setVisibleProducts(products.slice(0, visibleProductsCount));
       const alreadyVisited = sessionStorage.getItem('hasVisitedCards');
       if (alreadyVisited) {
         setShowData(true);
@@ -49,19 +50,23 @@ const Cards = () => {
         return () => clearTimeout(timer);
       }
     }
-  }, [status,visibleProducts,products]);
-    
+  }, [status, visibleProductsCount, products]);
 
   const skeletonArray = Array.from({ length: 8 });
-  const handleLaodMore = () =>  {
-    setVisibleProductsCount(prev => prev + 4)
-  }
+
+  const handleLoadMore = () => {
+    setVisibleProductsCount((prev) => prev + 4);
+  };
+
   return (
     <Container maxWidth="xl">
       <Grid container spacing={2} justifyContent="center">
+       
+        <Outlet />
+
         {status === 'succeeded' && showData
-          ? visibleProducts.map((product) => (
-              <Grid item xs={6} sm={6} md={4} lg={3} key={product.id}>
+          ? visibleProducts.map((product, index) => (
+              <Grid item xs={6} sm={6} md={4} lg={3} key={product.id || index}>
                 <Link to={`/productdetail/${product.id}`} style={{ textDecoration: 'none' }}>
                   <Box display="flex" justifyContent="center">
                     <Card
@@ -226,15 +231,23 @@ const Cards = () => {
               </Grid>
             ))}
       </Grid>
-      <Box component={'div'} sx={{
-        display : 'flex' ,
-        width : '100%' ,
-        height : '100px' ,
-        alignItems : 'center',
-        justifyContent : 'center'
-      }} >
-        <Button onClick={handleLaodMore} variant='outlined' >Load More</Button>
-      </Box>
+   {visibleProductsCount < products.length && showData ? (
+  <Box
+    component={'div'}
+    sx={{
+      display: 'flex',
+      width: '100%',
+      height: '100px',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}
+  >
+    <Button onClick={handleLoadMore} variant="outlined">
+      Load More
+    </Button>
+  </Box>
+) : ''  }
+
     </Container>
   );
 };

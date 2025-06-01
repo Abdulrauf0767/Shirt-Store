@@ -45,7 +45,7 @@ const Productdetail = () => {
     const handleAddtocart = () => {
         if (selectedProduct) {
             dispatch(addTocart(selectedProduct));
-            navigate('/cart');
+            
         }
     };
 

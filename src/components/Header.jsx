@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AppBar, Typography, IconButton,Button } from '@mui/material';
+import { AppBar, Typography,Badge, IconButton,Button, Box } from '@mui/material';
 import { Link, useNavigate } from "react-router-dom";
 import {
   AddShoppingCartOutlined,
@@ -8,7 +8,7 @@ import {
   Menu as MenuIcon,
   Close as CloseIcon,
 } from '@mui/icons-material';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { handleSearch } from '../features/DataSlice';
 
 const Header = () => {
@@ -17,7 +17,10 @@ const Header = () => {
   const [searchValue, setSearchValue] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const { list, addtoCart } = useSelector((state) => ({
+  list: state.cardData.list,
+  addtoCart: state.cardData.addtoCart
+}));
   const toggleMenu = () => setMenuOpen(!menuOpen);
   const toggleSearch = () => setShowSearch(!showSearch);
 
@@ -86,10 +89,18 @@ const Header = () => {
           >
             <SearchOutlined />
           </IconButton>
+          <Box component="div" sx={{ position: 'relative' }}>
+            <Link to="/cart">
+              <Badge 
+                badgeContent={addtoCart.reduce((total, item) => total + item.quantity, 0)} 
+                color="error" 
+                invisible={addtoCart.length === 0}
+              >
+                <AddShoppingCartOutlined className="cursor-pointer" />
+              </Badge>
+            </Link>
+          </Box>
 
-          <Link to="/cart">
-            <AddShoppingCartOutlined className="cursor-pointer" />
-          </Link>
           <Link to="/login">
             <AccountCircleOutlined className="cursor-pointer" />
           </Link>
