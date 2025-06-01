@@ -13,7 +13,8 @@ import {
   useMediaQuery,
   Grid,
   Container,
-  Skeleton
+  Skeleton,
+  Button
 } from '@mui/material';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import StarIcon from '@mui/icons-material/Star';
@@ -26,7 +27,8 @@ const Cards = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [showData, setShowData] = useState(false);
-
+  const [visibleProductsCount, setVisibleProductsCount] = useState(8);
+  const [visibleProducts,setvisibleProducts] = useState([]) ;
   useEffect(() => {
     if (status === 'idle') {
       dispatch(fetchData());
@@ -35,6 +37,7 @@ const Cards = () => {
 
   useEffect(() => {
     if (status === 'succeeded') {
+      setvisibleProducts(products.slice(0,visibleProductsCount)) ;
       const alreadyVisited = sessionStorage.getItem('hasVisitedCards');
       if (alreadyVisited) {
         setShowData(true);
@@ -46,15 +49,18 @@ const Cards = () => {
         return () => clearTimeout(timer);
       }
     }
-  }, [status]);
+  }, [status,visibleProducts,products]);
+    
 
   const skeletonArray = Array.from({ length: 8 });
-
+  const handleLaodMore = () =>  {
+    setVisibleProductsCount(prev => prev + 4)
+  }
   return (
     <Container maxWidth="xl">
       <Grid container spacing={2} justifyContent="center">
         {status === 'succeeded' && showData
-          ? products.map((product) => (
+          ? visibleProducts.map((product) => (
               <Grid item xs={6} sm={6} md={4} lg={3} key={product.id}>
                 <Link to={`/productdetail/${product.id}`} style={{ textDecoration: 'none' }}>
                   <Box display="flex" justifyContent="center">
@@ -73,7 +79,7 @@ const Cards = () => {
                         },
                         borderRadius: 2,
                         boxShadow: 3,
-                        height: '100%',
+                        height: isMobile ? 320 : 390,
                         display: 'flex',
                         flexDirection: 'column',
                         minWidth: isMobile ? 120 : 200,
@@ -220,6 +226,15 @@ const Cards = () => {
               </Grid>
             ))}
       </Grid>
+      <Box component={'div'} sx={{
+        display : 'flex' ,
+        width : '100%' ,
+        height : '100px' ,
+        alignItems : 'center',
+        justifyContent : 'center'
+      }} >
+        <Button onClick={handleLaodMore} variant='outlined' >Load More</Button>
+      </Box>
     </Container>
   );
 };
