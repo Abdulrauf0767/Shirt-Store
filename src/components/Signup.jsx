@@ -82,7 +82,7 @@ const Signup = () => {
                           position : 'absolute' ,
                           top : '13%',
                           left : '5%' ,
-                          backgroundColor : 'grey'
+                          backgroundColor : 'none'
                         }} >
                           <KeyboardArrowLeftIcon  />
                         </IconButton>
