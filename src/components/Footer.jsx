@@ -16,7 +16,7 @@ const Footer = () => {
           {/* Brand Info */}
           <Grid item xs={12} md={4}>
             <Typography variant="h5" fontWeight="bold" gutterBottom>
-              Get Shirts
+              Fashion Week
             </Typography>
             <Typography variant="body2" color="text.secondary">
               Premium T-shirts for your style. Feel the comfort, wear the trend.
@@ -69,7 +69,7 @@ const Footer = () => {
         {/* Copyright */}
         <Box mt={6} textAlign="center">
           <Typography variant="body2" color="text.secondary">
-            © {new Date().getFullYear()} Get Shirts. All rights reserved.
+            © {new Date().getFullYear()} Fashion week. All rights reserved.
           </Typography>
         </Box>
       </Container>

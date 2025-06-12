@@ -43,7 +43,7 @@ const Header = () => {
       position="fixed"
       color="inherit"
       sx={{
-        boxShadow: 'none',
+        boxShadow: '1px 1px 1px 0.5px rgba(0, 0, 0, 0.1)',
         height: '5rem',
         paddingX: { xs: 2, md: 6 },
         zIndex: 30,
@@ -51,7 +51,7 @@ const Header = () => {
     >
       <div className="flex items-center justify-between h-full w-full mx-auto">
         {/* Logo */}
-        <div className="text-xl font-bold w-[120px] flex-shrink-0">Get Shirts</div>
+        <div className="text-xl font-bold w-[200px] flex-shrink-0">Fashion Week</div>
 
         {/* Desktop Search */}
         <form

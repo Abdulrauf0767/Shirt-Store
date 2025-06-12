@@ -24,7 +24,7 @@ const Slider = () => {
   };
 
   return (
-    <div className="w-full h-auto">
+    <div className="w-full mt-24 h-auto">
       <div
         className="
           w-[94%] 
